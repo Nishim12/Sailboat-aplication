@@ -11,30 +11,9 @@ def bound_to_180(angle):
     Returns:
         float: The bounded angle in degrees.
     """
-    bounded_angle = ((angle + 180) % 360)  # Ensure angle is between [0, 360)
-    bounded_angle -= 180  # Limits the bound to [-180, 180)
+    bounded_angle = ((angle + 180) % 360) #Ensure angle is in between [0,360)
+    bounded_angle -= 180 #Limits the bound to [-180,180)
     return bounded_angle
-
-
-def get_reflex_angle(angle):
-    """Returns the reflex angle of the provided angle.
-
-    e.g.)
-        get_reflex_angle(30) = 210.0
-        get_reflex_angle(200) = 20.0
-
-    Args:
-        angle (float): The input angle in degrees.
-
-    Returns:
-        float: The reflex angle in degrees.
-    """
-    if angle < 0:
-        angle += 360
-    else:
-        angle += 180
-    return angle
-
 
 def is_angle_between(first_angle, middle_angle, second_angle):
     """Determines whether an angle is between two other angles.
@@ -48,13 +27,33 @@ def is_angle_between(first_angle, middle_angle, second_angle):
         middle_angle (float): The angle in question in degrees.
         second_angle (float): The second bounding angle in degrees.
 
-    Returns:
-        bool: True when `middle_angle` is between `first_angle` and `second_angle` in a circular manner,
-              False otherwise.
+    Returns:True
+        bool:  when `middle_angle` is not in the reflex angle of `first_angle` and `second_angle`, false otherwise.
     """
-    first_angle = bound_to_180(first_angle)
-    second_angle = bound_to_180(second_angle)
-    middle_angle = bound_to_180(middle_angle)
-    first_angle = get_reflex_angle(first_angle)
-    second_angle = get_reflex_angle(second_angle)
-    return (first_angle < middle_angle < second_angle) or (second_angle < middle_angle < first_angle)
+    first_angle_within_360 = first_angle % 360
+    second_angle_within_360 = second_angle % 360
+    middle_angle_within_360 = middle_angle % 360
+    
+    # Bound angles to be within [-180, 180)
+    bound_first_angle = bound_to_180(first_angle)
+    bound_middle_angle = bound_to_180(middle_angle)
+    bound_second_angle = bound_to_180(second_angle)
+
+    # Case 1: Both angles have the same sign or the difference is less than 180 degrees
+    #         than the bound_middle_angle should be bound between the bound_first_angle and 
+    #         bound_second_angle.
+    if (bound_first_angle >= 0 and bound_second_angle >= 0) or (bound_first_angle < 0 and bound_second_angle < 0) or abs(bound_first_angle - bound_second_angle) < 180:
+        return bound_first_angle <= bound_middle_angle <= bound_second_angle or bound_second_angle <= bound_middle_angle <= bound_first_angle
+
+    # Case 2: The difference between bound_first_angle and bound_second_angle is greater than 180 degrees
+    #         than the middle_angle_within_360 should be bound between the first_angle_within_360
+    #         and second_angle_within_360.
+    elif abs(bound_first_angle - bound_second_angle) > 180:
+        return first_angle_within_360 <= middle_angle_within_360 <= second_angle_within_360 or second_angle_within_360 <= middle_angle_within_360 <= first_angle_within_360
+    
+    # Case 3: if the difference between bound_first_angle and bound_second_angle is 180 then the middle angle
+    #         will always be bound between the first_angle and second_angle.
+    else:
+        return True
+
+
