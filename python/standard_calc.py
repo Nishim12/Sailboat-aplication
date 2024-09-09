@@ -42,7 +42,7 @@ def is_angle_between(first_angle, middle_angle, second_angle):
     bound_second_angle = bound_to_180(second_angle)
 
     # Case 1: Both angles have the same sign or the difference is less than 180 degrees
-    #         than the bound_middle_angle should be bound between the bound_first_angle and 
+    #         than the bound_middle_angle should be bound between the bound_first_angle and
     #         bound_second_angle.
     if (bound_first_angle >= 0 and bound_second_angle >= 0) or \
        (bound_first_angle < 0 and bound_second_angle < 0) or \
