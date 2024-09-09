@@ -1,4 +1,6 @@
 from standard_calc import bound_to_180, is_angle_between
+
+
 """ Tests for bound_to_180() """
 
 
@@ -42,10 +44,26 @@ def test_bound_basic1():
 """ Tests for is_angle_between() """
 
 
-def test_between_basic1():    
-    assert is_angle_between(0, 1, 2)    
+def test_between_basic1():
+    assert is_angle_between(0, 1, 2)
+    # Testing a case where the middle angle (1) is between the first angle (0) and the second angle (2).
+    # This checks the basic functionality where the middle angle lies directly between the two bounding angles.
+
     assert not is_angle_between(45, 90, 270)
+    # Testing a case where the middle angle (90) is not between the first angle (45) and the second angle (270).
+    # The function should correctly handle the circular nature of angles and return False.
+
     assert is_angle_between(45, 0, 270)
+    # Testing a case where the middle angle (0) is between the first angle (45) and the second angle (270).
+    # This tests the handling of angles wrapping around the zero mark.
+
     assert is_angle_between(210, 180, 135)
+    # Testing a case where the middle angle (210) is between the first angle (180) and the second angle (135).
+    # This checks if the function can handle angles requiring normalization from negative to positive ranges.
+
     assert is_angle_between(-570, 160, -150)
+    # Testing a case with large negative angles and checking if the function normalizes them correctly.
+
     assert is_angle_between(90, 89, 270)
+    # Testing a case where the middle angle (89) is between the first angle (90) and the second angle (270).
+    # This checks handling of angles close to the boundary in a circular context.
