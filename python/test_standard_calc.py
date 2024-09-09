@@ -50,7 +50,7 @@ def test_between_basic1():
     # This checks the basic functionality where the middle angle lies directly between the two bounding angles.
 
     assert not is_angle_between(45, 90, 270)
-    # Testing a case where the middle angle (90) is not between the first angle (45) and the second angle (270).    
+    # Testing a case where the middle angle (90) is not between the first angle (45) and the second angle (270).
     # The function should return False.
 
     assert is_angle_between(45, 0, 270)
@@ -62,6 +62,6 @@ def test_between_basic1():
 
     assert is_angle_between(-570, 160, -150)
     # Testing a case with large negative angles
-    
+
     assert is_angle_between(90, 89, 270)
     # Testing a case where any angle wil be between 90 and 270 as their difference is 180.
